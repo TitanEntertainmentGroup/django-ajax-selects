@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import json
 
+import django
 from django import forms
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
@@ -31,7 +32,10 @@ def _media(self):
     # unless AJAX_SELECT_BOOTSTRAP == False
     # then load jquery and jquery ui + default css
     # where needed
-    js = ('ajax_select/js/bootstrap.js', 'ajax_select/js/ajax_select.js')
+    if django.VERSION >= (2, 2):
+        js = ('admin/js/jquery.init.js', 'ajax_select/js/bootstrap.js', 'ajax_select/js/ajax_select.js')
+    else:
+        js = ('ajax_select/js/bootstrap.js', 'ajax_select/js/ajax_select.js')
     try:
         if not settings.AJAX_SELECT_BOOTSTRAP:
             js = ('ajax_select/js/ajax_select.js',)
